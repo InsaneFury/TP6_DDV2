@@ -7,10 +7,10 @@ public class TurretController : Singleton<TurretController>
     public Vector3 target;
     public Transform turretBase;
     public Transform turretCanion;
+    public Rocket rocket;
     public float speedBase = 1f;
     public float speedCanion = 2f;
     public float rayDistance = 100f;
-    bool canAim = false;
 
     public override void Awake()
     {
@@ -26,7 +26,7 @@ public class TurretController : Singleton<TurretController>
     {
         moveBase();
         moveCanion();
-        Shoot();
+        DetectEnemy();
     }
 
     void moveBase()
@@ -51,7 +51,7 @@ public class TurretController : Singleton<TurretController>
         turretCanion.localRotation = Quaternion.Euler(rotation.x, 0f, 0f);
     }
 
-    void Shoot()
+    void DetectEnemy()
     {
         RaycastHit hit;
 
@@ -60,12 +60,21 @@ public class TurretController : Singleton<TurretController>
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.DrawRay(turretCanion.position, turretCanion.forward * hit.distance, Color.red);
-                Debug.Log("Can Hit");
+                Debug.Log("Enemy Detected");
+                if (!hit.transform.gameObject.GetComponent<Enemy>().isUnderAttack)
+                {
+                   rocket.LaunchMissile();
+                   hit.transform.gameObject.GetComponent<Enemy>().isUnderAttack = true;
+                }
+                else
+                {  
+                   Debug.Log("Is already under attack");
+                }
             }
         }
         else
         {
-            Debug.DrawRay(turretCanion.position, turretCanion.forward * rayDistance, Color.white);
+            Debug.DrawRay(turretCanion.position, turretCanion.forward * hit.distance, Color.yellow);
         }
     }
 }

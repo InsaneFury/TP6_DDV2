@@ -4,16 +4,54 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    TurretController player;
+    [HideInInspector]
+    public bool isUnderAttack = false;
 
-    // Start is called before the first frame update
+    public GameObject weapons;
+    public float dropSpeed = 0.6f;
+    public float delayOnFloor = 1f;
+
+    Rigidbody rb;
+    TurretController player;
+    bool enemyTargeted = false;
+
     void Start()
     {
         player = TurretController.Get();
+        rb = gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity = rb.velocity * dropSpeed;
+        if (enemyTargeted)
+        {
+            player.target = transform.position;
+        }  
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Floor"))
+        {
+            Debug.Log("Lose 1 life");
+            Invoke("Die",delayOnFloor);
+        }
     }
 
     private void OnMouseDown()
     {
-        player.target = transform.position;
+        enemyTargeted = !enemyTargeted;
+    }
+
+    public void Die()
+    {
+        SpawnWeapons();
+        Destroy(gameObject);
+    }
+
+    void SpawnWeapons()
+    {
+        Instantiate(weapons, transform.position, Quaternion.identity);
     }
 }
