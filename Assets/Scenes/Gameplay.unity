@@ -1135,7 +1135,7 @@ MonoBehaviour:
   turretCanion: {fileID: 1802703497}
   rocket: {fileID: 1192006097}
   speedBase: 1
-  speedCanion: 1
+  speedCanion: 2
   rayDistance: 100
 --- !u!1 &7895886709569544211
 GameObject:

@@ -15,6 +15,7 @@ public class HomingMissile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = TurretController.Get();
         missileTarget = player.target;
+        Invoke("DestroyMissile", 4f);
     }
 
     void FixedUpdate()

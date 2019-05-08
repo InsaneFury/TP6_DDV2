@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
     public GameObject weapons;
     public float dropSpeed = 0.6f;
-    public float delayOnFloor = 1f;
+    public float delayOnFloor = 0.2f;
 
     Rigidbody rb;
     TurretController player;
@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
 
     private void OnMouseDown()
     {
-        enemyTargeted = !enemyTargeted;
+        enemyTargeted = true;
     }
 
     public void Die()
