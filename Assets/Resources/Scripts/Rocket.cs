@@ -6,10 +6,6 @@ public class Rocket : MonoBehaviour
 {
     [Header("RocketSettings")]
     public GameObject missilePrefab;
-    private void Update()
-    {
-        
-    }
 
     public void LaunchMissile()
     {

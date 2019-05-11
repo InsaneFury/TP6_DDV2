@@ -15,7 +15,7 @@ public class HomingMissile : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = TurretController.Get();
         missileTarget = player.target;
-        Invoke("DestroyMissile", 4f);
+        Invoke("DestroyMissile", 8f);
     }
 
     void FixedUpdate()
@@ -30,7 +30,6 @@ public class HomingMissile : MonoBehaviour
     {
         if (collision.collider.CompareTag("Enemy"))
         {
-            collision.collider.GetComponent<Enemy>().Die();
             DestroyMissile();
         }
     }

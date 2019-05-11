@@ -9,14 +9,16 @@ public class Enemy : MonoBehaviour
 
     public GameObject weapons;
     public float dropSpeed = 0.6f;
-    public float delayOnFloor = 0.2f;
+    public int score = 10;
 
     Rigidbody rb;
     TurretController player;
+    ScoreManager mScore;
     bool enemyTargeted = false;
 
     void Start()
     {
+        mScore = ScoreManager.Get();
         player = TurretController.Get();
         rb = gameObject.GetComponent<Rigidbody>();
     }
@@ -34,8 +36,13 @@ public class Enemy : MonoBehaviour
     {
         if (collision.collider.CompareTag("Floor"))
         {
-            Debug.Log("Lose 1 life");
-            Invoke("Die",delayOnFloor);
+            mScore.lives--;
+            Die();
+        }
+        if (collision.collider.CompareTag("HomingMissile"))
+        {
+            mScore.AddScore(score);
+            Die();
         }
     }
 
